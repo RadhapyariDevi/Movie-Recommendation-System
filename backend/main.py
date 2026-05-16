@@ -12,6 +12,14 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 
 load_dotenv()
+TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+
+TMDB_BASE = "https://api.themoviedb.org/3"
+TMDB_IMG_500 = "https://image.tmdb.org/t/p/w500"
+
+if not TMDB_API_KEY:
+    raise RuntimeError("TMDB_API_KEY not found in environment variables")
+
 
 app = FastAPI(title="Movie Recommendation API", version="1.0")
 
@@ -37,5 +45,39 @@ tfidf_matrix: Any = None
 tfidf_obj: Any = None
 
 TITLE_TO_IDX : Optional[Dict[str, int]] = None
+
+
+
+
+class TMDBMovieCard(BaseModel):
+    tmdb_id: int
+    title: str
+    poster_url: Optional[str] = None
+    release_date: Optional[str] = None
+    vote_average: Optional[float] = None
+
+
+class TMDBMovieDetails(BaseModel):
+    tmdb_id:int
+    title:str
+    overview: Optional[str] = None
+    release_date: Optional[str] = None
+    poster_url: Optional[str] = None
+    backdrop_url: Optional[str] = None
+    genres: List[dict] = []
+
+
+class TFIDFRecItem(BaseModel):
+    title:str
+    score:float
+    tmdb: Optional[TMDBMovieCard] = None
+
+
+class SearchBundleResponse(BaseModel):
+    query:str
+    movie_details: TMDBMovieDetails
+    tfidf_recommmendations: List[TFIDFRecItem]
+    genre_recommendations: List[TMDBMovieCard]
+
 
 
