@@ -186,7 +186,7 @@ def build_title_to_idx_map(indices: Any) -> Dict[str, int]:
         return title_to_idx
     
     try:
-        for idx, title in indices.item():
+        for title, idx in indices.items():
             title_to_idx[_norm_title(title)] = int(idx)
         return title_to_idx
     except Exception as e:
