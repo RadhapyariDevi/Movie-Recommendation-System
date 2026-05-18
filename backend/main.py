@@ -259,3 +259,188 @@ async def attach_tmdb_card_by_title(title: str) -> Optional[TMDBMovieCard]:
         )
     except Exception:
         return None
+    
+
+
+
+
+
+
+
+@app.on_event("startup")
+def load_models():
+    global df, indices_obj, tfidf_matrix, tfidf_obj, TITLE_TO_IDX
+
+    with open(DF_PATH, "rb") as f:
+        df = pickle.load(f)
+
+    with open(INDICES_PATH, "rb") as f:
+        indices_obj = pickle.load(f)
+    
+    with open(TFIDF_MATRIX_PATH, "rb") as f:
+        tfidf_matrix = pickle.load(f)
+
+    with open(TFIDF_PATH, "rb") as f:
+        tfidf_obj = pickle.load(f)
+
+    TITLE_TO_IDX = build_title_to_idx_map(indices_obj)
+
+    if df is None or "title" not in df.columns:
+        raise RuntimeError("DataFrame must be loaded with a 'title' column")
+    
+
+
+
+#ROUTES
+@app.get("/health")
+def health():
+    return {"status":"ok"}
+
+
+
+# home routes
+@app.get("/home", response_model=List[TMDBMovieCard])
+async def home(
+    category: str = Query("popular"),
+    limit: int = Query(24, ge=1, le=50),
+):
+    try:
+        if category == "trending":
+            data = await tmdb_get("/trending/movie/day",{"language":"en-US"})
+            return await tmdb_cards_from_results(data.get("results",[]), limit = limit)
+        if category not in {"popular","top_rated","upcoming","now_playing"}:
+            raise HTTPException(
+                status_code = 400,
+                detail = "Invalid category"
+            )
+        
+        data = await tmdb_get(f"/movie/{category}", {"language":"en-US", "page":1})
+        return await tmdb_cards_from_results(data.get("results",[]), limit = limit)
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Error fetching data from TMDB API: {str(e)}"
+        )
+    
+
+
+#search
+@app.get("/tmdb/search")
+async def tmdb_search(
+    query: str = Query(..., min_length=1),
+    page: int = Query(1, ge=1, le=10),
+):
+    return await tmdb_search_movies(query=query, page = page)
+    
+
+# movie details
+@app.get("/movie/id/{tmdb_id}", response_model = TMDBMovieDetails)
+async def movie_details_route(tmdb_id: int):
+    return await tmdb_movie_details(tmdb_id)
+
+
+# genre recommendations
+@app.get("/recommend/genre", response_model=List[TMDBMovieCard])
+async def recommend_genre(
+    tmdb_id: int = Query(...),
+    limit: int = Query(18,ge=1,le=50),
+):
+    details = await tmdb_movie_details(tmdb_id)
+    if not details.genres:
+        return []
+    
+    genre_id = details.genres[0]["id"]
+
+    discover = await tmdb_get(
+        "/discover/movie",
+        {
+            "with_genres": genre_id,
+            "language":"en-US",
+            "sort_by": "popularity.desc",
+            "page":1,
+        },
+    )
+    cards = await tmdb_cards_from_results(discover.get("results",[]), limit=limit)
+    return [c for c in cards if c.tmdb_id != tmdb_id]
+
+
+
+
+# tfidf recommendations
+@app.get("/recommend/tfidf")
+async def recommend_tfidf(
+    title: str = Query(...,min_length=1),
+    top_n: int = Query(10,ge=1,le=50),
+):
+    recs = tfidf_recommend_titles(title, top_n = top_n)
+    return [{"title":t, "score":s} for t,s in recs]
+
+
+
+
+#tfidf recommendations(local) + genre recommendations(tmdb)
+
+@app.get("/movie/search", response_model=SearchBundleResponse)
+async def search_bundle(
+    query: str = Query(..., min_length=1),
+    tfidf_top_n: int = Query(12, ge=1, le=30),
+    genre_limit: int = Query(12, ge=1, le=30),
+    
+):
+    best = await tmdb_search_first(query)
+    if not best:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No TMDB results found for query: '{query}'"
+        )
+    tmdb_id = int(best["id"])
+    details = await tmdb_movie_details(tmdb_id)
+
+    # tfidf recs
+    tfidf_items: List[TFIDFRecItem] = []
+
+    recs: List[Tuple[str,float]] = []
+
+    try:
+        recs = tfidf_recommend_titles(details.title, top_n = tfidf_top_n)
+    except Exception:
+        try:
+            recs = tfidf_recommend_titles(query, top_n = tfidf_top_n)
+        except Exception:
+            recs = []
+    
+    for title, score in recs:
+        card = await attach_tmdb_card_by_title(title)
+        tfidf_items.append(TFIDFRecItem(title=title, score=score, card=card))
+
+
+    # genre recs
+    genre_recs: List[TMDBMovieCard] = []
+
+    if details.genres:
+        genre_id = details.genres[0]["id"]
+        discover = await tmdb_get(
+            "/discover/movie",
+            {
+                "with_genres": genre_id,
+                "language":"en-US",
+                "sort_by": "popularity.desc",
+                "page":1,
+            },
+        )
+        cards = await tmdb_cards_from_results(
+            discover.get("results",[]),
+            limit=genre_limit
+        )
+        genre_recs = [c for c in cards if c.tmdb_id != details.tmdb_id]
+    
+
+    return SearchBundleResponse(
+        query=query,
+        movie_details=details,
+        tfidf_recommmendations=tfidf_items,
+        genre_recommendations=genre_recs,
+    )
