@@ -106,9 +106,10 @@ async def tmdb_get(path:str, params:Dict[str,Any]) -> Dict[str, Any]:
                 params=q
             )
     except httpx.RequestError as e:
+        print("TMDB ERROR:", repr(e))
         raise HTTPException(
             status_code=502,
-            detail=f"Error connecting to TMDB API: {str(e)}",
+            detail=f"Error connecting to TMDB API: {repr(e)}",
         )
     
     if response.status_code != 200:
@@ -375,7 +376,7 @@ async def recommend_tfidf(
     title: str = Query(...,min_length=1),
     top_n: int = Query(10,ge=1,le=50),
 ):
-    recs = tfidf_recommend_titles(title, top_n = top_n)
+    recs = tfidf_recommend_titles(title, top_k = top_n)
     return [{"title":t, "score":s} for t,s in recs]
 
 
