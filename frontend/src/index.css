@@ -1,1 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap');
+
 @import "tailwindcss";
+
+@theme {
+  /* COLORS */
+  --color-ink: #0a0908;
+  --color-wine: #49111c;
+  --color-snow: #f2f4f3;
+  --color-sand: #a9927d;
+  --color-earth: #5e503f;
+
+  /* FONTS */
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+
+  /* ANIMATIONS */
+  --animate-fadeIn: fadeIn 0.3s ease;
+}
+
+/* KEYFRAMES */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

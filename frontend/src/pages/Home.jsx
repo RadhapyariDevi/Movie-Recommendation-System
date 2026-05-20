@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import MovieRow from '../components/MovieRow'
+import PopularMovies from '../sections/PopularMovies'
 import { fetchHome, searchMovie } from '../services/api'
 import SearchBar from '../components/SearchBar'
+import Hero from '../sections/Hero'
 
 function Home() {
   const [popular, setPopular] = useState([])
@@ -36,10 +37,8 @@ function Home() {
   }, [])
 
   return (
-    <div className='m-auto'>
-      <h1 className='text-4xl font-bold'>
-        Movie Recommendation System
-      </h1>
+    <div className="w-full mx-auto px-6 pb-16 bg-ink">
+      <Hero />
 
       <SearchBar onSearch={handleSearch}/>
 
@@ -63,15 +62,11 @@ function Home() {
         </div>
       )}
 
-      <MovieRow 
-        title = "Popular Movies🍿"
+      <PopularMovies 
         movies={popular}
       />
 
-      <MovieRow 
-        title = "Trending Movies🔥"
-        movies={trending}
-      />
+      
     </div>
   )
 }

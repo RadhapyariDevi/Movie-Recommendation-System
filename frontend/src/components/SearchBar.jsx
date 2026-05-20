@@ -19,12 +19,12 @@ function SearchBar({onSearch}) {
                 placeholder='search movies...'
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className='flex-1 px-4 py-3 rounded-xl bg-zinc-800 text-white outline-none'
+                className='flex-1 px-4 py-3 rounded-xl bg-snow/80 text-ink outline-none'
              />
 
             <button
                 type='submit'
-                className='px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600'
+                className='px-6 py-3 bg-wine text-white rounded-xl hover:bg-wine/80 transition-colors'
             >
                 Search
             </button>
