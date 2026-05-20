@@ -79,7 +79,7 @@ class TFIDFRecItem(BaseModel):
 class SearchBundleResponse(BaseModel):
     query:str
     movie_details: TMDBMovieDetails
-    tfidf_recommmendations: List[TFIDFRecItem]
+    tfidf_recommendations: List[TFIDFRecItem]
     genre_recommendations: List[TMDBMovieCard]
 
 
@@ -241,6 +241,8 @@ def tfidf_recommend_titles(
 
     for i in order:
         if int(i) == int(idx):
+            continue
+        if scores[int(i)] < 0.18:
             continue
         try:
             title_i = str(df.iloc[int(i)]["title"])
@@ -421,7 +423,7 @@ async def search_bundle(
     
     for title, score in recs:
         card = await attach_tmdb_card_by_title(title)
-        tfidf_items.append(TFIDFRecItem(title=title, score=score, tmdb_id=card))
+        tfidf_items.append(TFIDFRecItem(title=title, score=score, tmdb=card))
 
 
     # genre recs
@@ -448,6 +450,6 @@ async def search_bundle(
     return SearchBundleResponse(
         query=query,
         movie_details=details,
-        tfidf_recommmendations=tfidf_items,
+        tfidf_recommendations=tfidf_items,
         genre_recommendations=genre_recs,
     )
