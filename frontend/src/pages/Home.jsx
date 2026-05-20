@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import MovieRow from '../components/MovieRow'
-import { fetchHome } from '../services/api'
+import { fetchHome, searchMovie } from '../services/api'
+import SearchBar from '../components/SearchBar'
 
 function Home() {
   const [popular, setPopular] = useState([])
   const [trending, setTrending] = useState([])
-  
+  const [searchResults, setSearchResults] = useState(null)
 
   async function loadHome(){
     try{
@@ -19,15 +20,49 @@ function Home() {
     }
   }
 
+  async function handleSearch(query){
+    try{
+      const data = await searchMovie(query)
+      setSearchResults(data)
+    }
+    catch(err){
+      console.log(err)
+    }
+    
+  }
+
   useEffect(() => {
     loadHome()
   }, [])
 
   return (
-    <div>
-      <h1>
+    <div className='m-auto'>
+      <h1 className='text-4xl font-bold'>
         Movie Recommendation System
       </h1>
+
+      <SearchBar onSearch={handleSearch}/>
+
+      {searchResults && (
+        <div className='mb-12'>
+           <div className='flex gap-6 mb-8'>
+              <img
+                src={searchResults.movie_details.poster_url}
+                alt=""
+                className='w-62.5 h-95 object-cover rounded-xl'
+               />
+               <div>
+                <h2 className='text-2xl font-bold mb-4'>
+                   {searchResults.movie_details.title}
+                </h2>
+                <p className='text-gray-300 mt-4'>
+                  {searchResults.movie_details.overview}
+                </p>
+               </div>
+           </div>
+        </div>
+      )}
+
       <MovieRow 
         title = "Popular Movies🍿"
         movies={popular}
