@@ -20,3 +20,14 @@ export async function searchMovie(query){
     }
     return res.json()
 }
+
+
+export async function fetchMovieDetails(movieId){
+    const res = await fetch(
+        `${BASE_URL}/movie/id/${movieId}`
+    )
+    if(!res.ok){
+        throw new Error("Failed to fetch movie details")
+    }
+    return res.json()
+}

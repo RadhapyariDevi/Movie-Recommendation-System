@@ -65,6 +65,9 @@ class TMDBMovieDetails(BaseModel):
     poster_url: Optional[str] = None
     backdrop_url: Optional[str] = None
     genres: List[dict] = []
+    vote_average: Optional[float] = None
+    vote_count: Optional[int] = None
+    popularity: Optional[float] = None
 
 
 class TFIDFRecItem(BaseModel):
@@ -150,6 +153,9 @@ async def tmdb_movie_details(movie_id: int) -> TMDBMovieDetails:
         poster_url=make_img_url(data.get("poster_path")),
         backdrop_url=make_img_url(data.get("backdrop_path")),
         genres=data.get("genres", []) or [],
+        vote_average=data.get("vote_average"),
+        vote_count=data.get("vote_count"),
+        popularity=data.get("popularity"),
     )
 
 
@@ -406,16 +412,16 @@ async def search_bundle(
     recs: List[Tuple[str,float]] = []
 
     try:
-        recs = tfidf_recommend_titles(details.title, top_n = tfidf_top_n)
+        recs = tfidf_recommend_titles(details.title, top_k = tfidf_top_n)
     except Exception:
         try:
-            recs = tfidf_recommend_titles(query, top_n = tfidf_top_n)
+            recs = tfidf_recommend_titles(query, top_k = tfidf_top_n)
         except Exception:
             recs = []
     
     for title, score in recs:
         card = await attach_tmdb_card_by_title(title)
-        tfidf_items.append(TFIDFRecItem(title=title, score=score, card=card))
+        tfidf_items.append(TFIDFRecItem(title=title, score=score, tmdb_id=card))
 
 
     # genre recs
