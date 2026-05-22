@@ -117,24 +117,24 @@ function Home() {
           {searchResults.genre_recommendations?.length > 0 && (
             <div
               className="
-      mt-6
-      bg-ink/60
-      border border-sand/12
-      rounded-2xl
-      p-5
-    "
+                mt-6
+                bg-ink/60
+                border border-sand/12
+                rounded-2xl
+                p-5
+              "
             >
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-1.5 h-1.5 rounded-full bg-sand" />
 
                 <span
                   className="
-          text-[10px]
-          uppercase
-          tracking-[0.14em]
-          text-sand
-          font-medium
-        "
+                    text-[10px]
+                    uppercase
+                    tracking-[0.14em]
+                    text-sand
+                    font-medium
+                  "
                 >
                   Genre Recommendations
                 </span>
