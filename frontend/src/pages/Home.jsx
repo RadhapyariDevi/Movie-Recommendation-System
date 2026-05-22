@@ -45,8 +45,32 @@ function Home() {
 
       {searchResults && (
         <div className="mb-12">
+          {searchResults.tmdbBusy ? (
+
+          <div
+            className="
+              mb-6
+              rounded-2xl
+              border border-red-400/20
+              bg-red-500/10
+              p-6
+              text-center
+            "
+          >
+            <p className="text-red-200 text-lg font-medium">
+              TMDB API is busy right now
+            </p>
+
+            <p className="text-red-200/70 text-sm mt-1">
+              Try again after some time
+            </p>
+          </div>
+
+        ) : (
+
           <MovieDetail movie={searchResults.movie_details} />
 
+        )}
           <div className="grid md:grid-cols-2 gap-2">
           {/* TF-IDF Recommendations */}
 

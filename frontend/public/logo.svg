@@ -1,0 +1,66 @@
+<svg width="600" height="600" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>MovieMood circular logo</title>
+  <desc>Circular MovieMood logo with film reel sprocket border, central mood face, and wordmark</desc>
+
+  <defs>
+    <clipPath id="outerClip"><circle cx="340" cy="340" r="300"/></clipPath>
+    <clipPath id="innerClip"><circle cx="340" cy="340" r="195"/></clipPath>
+  </defs>
+
+  <circle cx="340" cy="340" r="300" fill="#0a0908"/>
+  <circle cx="340" cy="340" r="300" fill="none" stroke="#a9927d" stroke-width="3"/>
+  <circle cx="340" cy="340" r="265" fill="none" stroke="#49111c" stroke-width="28"/>
+  <circle cx="340" cy="340" r="265" fill="none" stroke="#a9927d" stroke-width="1" opacity="0.4"/>
+  <circle cx="340" cy="340" r="251" fill="none" stroke="#a9927d" stroke-width="1" opacity="0.4"/>
+
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(0 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(22.5 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(45 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(67.5 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(90 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(112.5 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(135 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(157.5 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(180 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(202.5 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(225 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(247.5 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(270 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(292.5 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(315 340 340)"/>
+  <rect x="333" y="42" width="14" height="22" rx="4" fill="#f2f4f3" opacity="0.18" transform="rotate(337.5 340 340)"/>
+
+  <circle cx="340" cy="340" r="235" fill="#49111c"/>
+  <circle cx="340" cy="340" r="195" fill="#0a0908"/>
+
+  <circle cx="340" cy="340" r="48" fill="#49111c" stroke="#a9927d" stroke-width="2"/>
+  <circle cx="340" cy="340" r="14" fill="#0a0908" stroke="#a9927d" stroke-width="1.5"/>
+  <circle cx="340" cy="340" r="5" fill="#a9927d"/>
+
+  <line x1="340" y1="145" x2="340" y2="175" stroke="#a9927d" stroke-width="2" stroke-linecap="round"/>
+  <line x1="340" y1="505" x2="340" y2="535" stroke="#a9927d" stroke-width="2" stroke-linecap="round"/>
+  <line x1="145" y1="340" x2="175" y2="340" stroke="#a9927d" stroke-width="2" stroke-linecap="round"/>
+  <line x1="505" y1="340" x2="535" y2="340" stroke="#a9927d" stroke-width="2" stroke-linecap="round"/>
+  <line x1="198.6" y1="198.6" x2="219.8" y2="219.8" stroke="#a9927d" stroke-width="2" stroke-linecap="round"/>
+  <line x1="460.2" y1="460.2" x2="481.4" y2="481.4" stroke="#a9927d" stroke-width="2" stroke-linecap="round"/>
+  <line x1="481.4" y1="198.6" x2="460.2" y2="219.8" stroke="#a9927d" stroke-width="2" stroke-linecap="round"/>
+  <line x1="219.8" y1="460.2" x2="198.6" y2="481.4" stroke="#a9927d" stroke-width="2" stroke-linecap="round"/>
+
+  <circle cx="296" cy="310" r="9" fill="#f2f4f3" opacity="0.9"/>
+  <circle cx="384" cy="310" r="9" fill="#f2f4f3" opacity="0.9"/>
+  <circle cx="296" cy="310" r="4" fill="#0a0908"/>
+  <circle cx="384" cy="310" r="4" fill="#0a0908"/>
+
+  <path d="M296 352 Q320 340 340 352 Q360 340 384 352" stroke="#f2f4f3" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.3"/>
+  <path d="M296 348 Q320 370 340 362 Q360 370 384 348" stroke="#f2f4f3" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+
+  <text x="340" y="432" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="32" font-weight="900" letter-spacing="1" fill="#f2f4f3">movie</text>
+  <text x="340" y="466" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="32" font-weight="900" letter-spacing="1" fill="#a9927d">mood</text>
+
+  <path id="arcText" d="M 130,340 A 210,210 0 0,1 550,340" fill="none"/>
+  <text font-family="'DM Sans', system-ui, sans-serif" font-size="13" font-weight="400" letter-spacing="5" fill="#a9927d" opacity="0.6">
+    <textPath href="#arcText" startOffset="50%" text-anchor="middle">DISCOVER · FEEL · WATCH</textPath>
+  </text>
+
+  <circle cx="340" cy="340" r="300" fill="none" stroke="#5e503f" stroke-width="1" opacity="0.5"/>
+</svg>

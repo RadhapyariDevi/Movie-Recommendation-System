@@ -11,26 +11,24 @@ export async function fetchHome(category = "popular"){
 }
 
 
-export async function searchMovie(query){
-    try{
-        const res = await fetch(
-            `${BASE_URL}/movie/search?query=${query}`
-        )
+export async function searchMovie(query) {
 
-        const data = await res.json()
+    const res = await fetch(
+        `${BASE_URL}/movie/search?query=${query}`
+    )
 
-        return data
-
-    }catch(err){
-        console.log(err)
-
+    // TMDB failed
+    if(res.status === 502){
         return {
-            movie_details:null,
-            tfidf_recommendations:[],
-            genre_recommendations:[],
-            tmdb_failed:true
+            tmdbBusy: true
         }
     }
+
+    if(!res.ok){
+        throw new Error("Failed to search movies")
+    }
+
+    return res.json()
 }
 
 
