@@ -9,6 +9,7 @@ import RecCard from "../components/RecCard";
 function Home() {
   const [popular, setPopular] = useState([]);
   const [searchResults, setSearchResults] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   async function loadHome() {
     try {
@@ -21,10 +22,13 @@ function Home() {
 
   async function handleSearch(query) {
     try {
+      setLoading(true);
       const data = await searchMovie(query);
       setSearchResults(data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -33,10 +37,11 @@ function Home() {
   }, []);
 
   return (
-    <div className="w-full mx-auto px-6 pb-16 bg-ink">
+    <div className="w-full mx-auto md:px-8 px-6 pb-16 bg-ink">
       <Hero />
 
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSearch={handleSearch}
+      loading={loading} />
 
       {searchResults && (
         <div className="mb-12">
@@ -113,10 +118,9 @@ function Home() {
 
               {searchResults.genre_recommendations.map((item, i) => (
                 <RecCard
-                  key={item.title}
-                  movie={item.tmdb}
+                  key={item.tmdb_id}
+                  movie={item}
                   title={item.title}
-                  score={item.score}
                   rank={i + 1}
                 />
               ))}

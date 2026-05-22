@@ -12,13 +12,25 @@ export async function fetchHome(category = "popular"){
 
 
 export async function searchMovie(query){
-    const res = await fetch(
-        `${BASE_URL}/movie/search?query=${query}`
-    )
-    if(!res.ok){
-        throw new Error("Failed to search movies")
+    try{
+        const res = await fetch(
+            `${BASE_URL}/movie/search?query=${query}`
+        )
+
+        const data = await res.json()
+
+        return data
+
+    }catch(err){
+        console.log(err)
+
+        return {
+            movie_details:null,
+            tfidf_recommendations:[],
+            genre_recommendations:[],
+            tmdb_failed:true
+        }
     }
-    return res.json()
 }
 
 

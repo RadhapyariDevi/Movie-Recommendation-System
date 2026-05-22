@@ -34,7 +34,7 @@ function PopularMovies({ movies, onMovieSelect }) {
 
         <button
           onClick={() => setShowAll(!showAll)}
-          className="text-[12px] uppercase tracking-wider text-sand hover:text-snow transition-colors"
+          className="text-lg uppercase tracking-wider text-sand hover:text-snow transition-colors"
         >
           {showAll ? "Show Less ↑" : "See All →"}
         </button>
